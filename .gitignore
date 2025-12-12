@@ -1,4 +1,3 @@
-# Ignore ALL node_modules in every subproject
 node_modules/
 */node_modules/
 
