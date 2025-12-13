@@ -32,7 +32,7 @@ program //2ND COMMAND
             if (err){
                 console.log(err)
             }else{
-                const words = data.split(/\s+/).length;
+                const words = data.split(/\s+/).length;  //regex of all white space characters
                 console.log(`There are ${words} words in ${file}`)
             }
         })
