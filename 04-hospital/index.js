@@ -44,26 +44,50 @@ app.post("/" , ( req , res)=>{
 })
 
 app.put("/" , ( req , res)=>{
-    //make all kidneys healthy
-    for ( let i = 0 ; i< users[0].kidneys.length ; i++){
-        users[0].kidneys[i].healthy = true;
-    }
-    res.json({}); //we dont need a response but still we do it or else the put req keeps hanging
-    
+    if(isThereAtLeastOneUnhealthy){
+        //make all kidneys healthy
+        for ( let i = 0 ; i< users[0].kidneys.length ; i++){
+            users[0].kidneys[i].healthy = true;
+        }
+        res.json({}); //we dont need a response but still we do it or else the put req keeps hanging
+
+    }else{
+        res.sendStatus(411).json({
+            msg : "no bad kidneys"
+        })
+    }   
 })
 
 app.delete("/" , ( req , res)=>{
-    const newKidneys = [];
-    for ( let i = 0 ; i< users[0].kidneys.length ; i++){
-        if (users[0].kidneys[i].healthy){
-            newKidneys.push({
-                healthy : true
-            })
+    //add en edge case when all are healthy kidneys - nothing to remove
+    //if atleast one unhealthy kidney: do this
+    if (isThereAtLeastOneUnhealthy){
+        const newKidneys = [];
+        for ( let i = 0 ; i< users[0].kidneys.length ; i++){
+            if (users[0].kidneys[i].healthy){
+                newKidneys.push({
+                    healthy : true
+                })
+            }
+        }
+        users[0].kidneys = newKidneys; //throw away old one
+        res.json({ msg : "done"})
+
+    }else{
+        res.sendStatus(411).json({
+            msg : "You have no bad kidneys"
+        })
+    }
+})
+
+function isThereAtLeastOneUnhealthy(){
+    let atleastOneUnhealthyKidney = false;
+    for ( let i = 0 ; i<users[0].kidneys.length ; i++){
+        if (!users[0].kidneys[i].healthy){
+            atleastOneUnhealthyKidney = true
         }
     }
-    users[0].kidneys = newKidneys; //throw away old one
-    res.json({ msg : "done"})
-
-})
+    return atleastOneUnhealthyKidney;
+}
 
 app.listen(3002);
