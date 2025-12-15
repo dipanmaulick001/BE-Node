@@ -44,11 +44,26 @@ app.post("/" , ( req , res)=>{
 })
 
 app.put("/" , ( req , res)=>{
+    //make all kidneys healthy
+    for ( let i = 0 ; i< users[0].kidneys.length ; i++){
+        users[0].kidneys[i].healthy = true;
+    }
+    res.json({}); //we dont need a response but still we do it or else the put req keeps hanging
     
 })
 
 app.delete("/" , ( req , res)=>{
-    
+    const newKidneys = [];
+    for ( let i = 0 ; i< users[0].kidneys.length ; i++){
+        if (users[0].kidneys[i].healthy){
+            newKidneys.push({
+                healthy : true
+            })
+        }
+    }
+    users[0].kidneys = newKidneys; //throw away old one
+    res.json({ msg : "done"})
+
 })
 
 app.listen(3002);
