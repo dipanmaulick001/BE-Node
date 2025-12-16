@@ -1,0 +1,15 @@
+//Headers 
+
+key-value pairs that are sent between client and server, which carries extra information such as metadata
+about the req/response . 
+Two types of headers : request headers and response headers 
+Request headers : Sent by the client to the server during the request 
+Response headers : Sent by the server to the client as a response 
+common types of headers : authentication , content-type , referrer
+
+eg of authentication headers: when we login google account , our dp is shown. How does the server know ?
+the browser sends in authentication headers to the server along with the req.
+content-type: json ( we write sometimes in postman)
+So the thing is main data sent thru body
+And extra data sent thru headers 
+Most of the times, headers are snt by browsers ,by default, not by developers explicitly.
