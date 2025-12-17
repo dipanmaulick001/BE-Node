@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+//uses query 
+
 
 app.get("/sum" , ( req , res)=>{
     const a = parseInt(req.query.a);
