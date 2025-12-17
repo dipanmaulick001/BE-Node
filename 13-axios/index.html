@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    
+
+</head>
+<body>
+  <div id="posts">Linkedin</div>
+
+  <script>
+    async function getPosts() {
+
+        const response = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+        //already in json, so no need
+
+    
+
+      document.getElementById("posts").innerHTML +=
+        "<div>" + response.data.body + "</div>";
+    }
+
+    getPosts();
+  </script>
+</body>
+
+</html>
