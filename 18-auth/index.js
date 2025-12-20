@@ -67,4 +67,27 @@ app.post("/signin" , (req , res)=>{
 
 })
 
+app.get("/me" , function(req , res){
+    const token = req.headers.token;
+
+    const user = users.find(function(u){
+        if (u.token == token){
+            return true;
+        }else{
+            return false
+        }
+    })
+
+    if(user){
+        res.json({
+            username : user.username,
+            password : user.password
+        })
+    }else{
+        res.json({
+            message : "invalid token"
+        })
+    }
+})
+
 app.listen(3003);
