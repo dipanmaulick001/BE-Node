@@ -50,6 +50,7 @@ app.post("/signin" , (req , res)=>{
 
     if (foundUser){
         const token = generateToken();
+        foundUser.token = token;
         res.json({
             token : token
         })
@@ -57,6 +58,30 @@ app.post("/signin" , (req , res)=>{
         res.json({msg : "credentials dont match"})
     }
 
+})
+
+//authenticated endpoint : tokens sent and checked
+
+app.get("/me" , (req , res)=>{
+    const token = req.headers.token;
+
+    let foundUser = null;
+    for(let i=0 ; i<users.length ; i++){
+        if(users[i].token == token){
+            foundUser = users[i]
+        }
+    }
+
+    if (foundUser){
+        res.json({
+            username : foundUser.username,
+            password : foundUser.password
+        })
+    }else{
+        res.json({
+            message : "invalid token"
+        })
+    }
 })
 
 app.listen(3003);
