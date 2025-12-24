@@ -4,12 +4,19 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = "randomiloveyou";
 const app = express();
 
-app.use(json.express());
+app.use(express.json());
 let users = []
 
 //auth middleware ; all the auth logic here
 function auth(req, res , next){
     const token = req.headers.token;
+
+    if(!token){  //for debugging
+        return res.status(401).json({
+            message : "Token missing"
+        })
+    }
+
     const decodedInfo = jwt.verify(token , JWT_SECRET);
     if (decodedInfo.username){
         req.username = decodedInfo.username;
@@ -26,6 +33,11 @@ function logger(req , res , next){
     console.log(req.method + "method comes");
     next();
 }
+
+//new : instead of cors, host the frontend in same domain
+app.get("/" , function(req,res){
+    res.sendFile(__dirname + "/public/index.html")
+})
 
 app.post("/signup" , function(req, res){
     const username = req.body.username;
@@ -62,7 +74,7 @@ app.post("/signin" , function(req, res){
 
 //authenticated endpoint 
 app.get("/me" , auth , function(req, res){
-    let user = users.find((u)=> u.username === decodedInfo.username);
+    let user = users.find((u)=> u.username === req.username); //auth middleware sent this
     if (user){
         res.json({
             username : user.username,
@@ -71,4 +83,4 @@ app.get("/me" , auth , function(req, res){
     }   
 })
 
-app.listen(3004);
+app.listen(3005);
