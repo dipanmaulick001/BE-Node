@@ -11,8 +11,36 @@ const passwordSchema = zod.string().min(6);
 
 
 function signJWT(username , password){
+    const usernameResponse = emailSchema.safeParse(username);
+    const passwordResponse = passwordSchema.safeParse(password);
+
+    if(!usernameResponse || !passwordResponse){
+        return null;
+    }
+
     const signature = jwt.sign({
         username
     }, jwtPassword)
     return signature;
+}
+
+//function that returns true if jwt can be decoded
+function decodeJWT(token){
+    const decoded = jwt.decode(token);
+    if(decoded){
+        return true
+    }else{
+        return false
+    }
+}
+
+
+//if verified, return true
+function verifyJWT(token , jwtPassword){
+    const verified = jwt.verify(token , jwtPassword);
+    if(verified){
+        return true
+    }else{
+        return false
+    }
 }
